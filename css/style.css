@@ -1,0 +1,47 @@
+.badge,
+.card-header {
+  background-color: #2f5233;
+}
+
+body {
+  background-image: url("../asset/background.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.title {
+  text-decoration: underline;
+  text-decoration-color: #c19d3f;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.timer-display {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 2em;
+}
+.time-box {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: fit-content;
+  text-align: center;
+}
+.timer-text {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.5 rem;
+}
+
+.time-label {
+  font-size: 0.5em;
+}

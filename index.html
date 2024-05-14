@@ -5,82 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jadwal Shalat Masjid Al Musabbihin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="container mt-5">
       <div class="card">
         <div class="card-header">
-          <h4 class="text-center">Jadwal Shalat</h4>
+          <h4 class="title text-center text-light">Jadwal Shalat</h4>
+          <div class="timer-display">
+            <div class="time-box">
+              <div id="hours">00</div>
+              <div class="time-label">jam</div>
+            </div>
+            <div class="text-light align-content-center">:</div>
+            <div class="time-box">
+              <div id="minutes">00</div>
+              <div class="time-label">menit</div>
+            </div>
+            <div class="text-light align-content-center">:</div>
+            <div class="time-box">
+              <div id="seconds">00</div>
+              <div class="time-label">detik</div>
+            </div>
+          </div>
+          <div class="timer-text text-light"></div>
         </div>
         <div class="card-body">
-          <p class="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+          <h6 class="d-flex justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2f5233" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
               <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
             </svg>
-            Medan
-          </p>
+            &nbsp;Medan |&nbsp;
+            <div class="text-center tanggal">14 Mei 2024</div>
+          </h6>
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Imsak</div>
-                <div class="timer imsak-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill imsak">14</span>
+              <span class="badge rounded-pill imsak">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Subuh</div>
-                <div class="timer subuh-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill subuh">14</span>
+              <span class="badge rounded-pill subuh">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Terbit</div>
-                <div class="timer terbit-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill terbit">14</span>
+              <span class="badge rounded-pill terbit">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Dhuha</div>
-                <div class="timer dhuha-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill dhuha">14</span>
+              <span class="badge rounded-pill dhuha">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Dzuhur</div>
-                <div class="timer dzuhur-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill dzuhur">14</span>
+              <span class="badge rounded-pill dzuhur">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Ashar</div>
-                <div class="timer ashar-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill ashar">14</span>
+              <span class="badge rounded-pill ashar">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Maghrib</div>
-                <div class="timer maghrib-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill maghrib">14</span>
+              <span class="badge rounded-pill maghrib">14</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Isya</div>
-                <div class="timer isya-timer"></div>
               </div>
-              <span class="badge bg-primary rounded-pill isya">14</span>
+              <span class="badge rounded-pill isya">14</span>
             </li>
           </ul>
         </div>
-        <div class="card-footer text-muted tanggal">14 Mei 2024</div>
       </div>
     </div>
+    <footer>
+      <p class="text-center text-light">Masjid Al Musabbihin</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="js/script.js"></script>

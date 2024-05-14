@@ -1,4 +1,3 @@
-// Current Date
 const getDate = new Date();
 const getYear = getDate.getFullYear();
 const getMonth = getDate.getMonth() + 1;
@@ -31,27 +30,81 @@ function calculateRemainingTime(targetTime) {
   const difference = target - now;
 
   if (difference > 0) {
-    const hours = Math.floor(difference / 1000 / 60 / 60);
-    const minutes = Math.floor((difference / 1000 / 60) % 60);
-    const seconds = Math.floor((difference / 1000) % 60);
-    return `${hours} j ${minutes} m ${seconds} d`;
-  } else {
-    return "Time for prayer";
+      const hours = Math.floor(difference / 1000 / 60 / 60);
+      const minutes = Math.floor((difference / 1000 / 60) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
+      return { hours, minutes, seconds };
+    } else {
+      return null;
   }
 }
 
-// Function to update the countdown timers
-function updateTimers(jadwal) {
-  document.querySelector(".imsak-timer").textContent = calculateRemainingTime(jadwal.imsak);
-  document.querySelector(".subuh-timer").textContent = calculateRemainingTime(jadwal.subuh);
-  document.querySelector(".terbit-timer").textContent = calculateRemainingTime(jadwal.terbit);
-  document.querySelector(".dhuha-timer").textContent = calculateRemainingTime(jadwal.dhuha);
-  document.querySelector(".dzuhur-timer").textContent = calculateRemainingTime(jadwal.dzuhur);
-  document.querySelector(".ashar-timer").textContent = calculateRemainingTime(jadwal.ashar);
-  document.querySelector(".maghrib-timer").textContent = calculateRemainingTime(jadwal.maghrib);
-  document.querySelector(".isya-timer").textContent = calculateRemainingTime(jadwal.isya);
+function getNextPrayerTime(prayerTimes) {
+  for (let i = 0; i < prayerTimes.length; i++) {
+      const remainingTime = calculateRemainingTime(prayerTimes[i].time);
+      if (remainingTime) {
+          return { index: i, remainingTime: remainingTime };
+      }
+  }
+  return null; 
 }
 
+// Function to start the countdown timer
+function startCountdown(prayerTimes) {
+  let { index, remainingTime } = getNextPrayerTime(prayerTimes);
+  let iqamahCountdownActive = false;
+
+  function updateTimer() {
+    if (index < prayerTimes.length) {
+      if (iqamahCountdownActive) {
+        // Handle the 5-minute iqamah countdown
+        remainingTime.totalSeconds--;
+        if (remainingTime.totalSeconds >= 0) {
+          const minutes = Math.floor(remainingTime.totalSeconds / 60);
+          const seconds = remainingTime.totalSeconds % 60;
+          document.getElementById("hours").textContent = "00";
+          document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+          document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+          document.querySelector(".timer-text").textContent = `Menuju iqamah ${prayerTimes[index].name}`;
+        } else {
+          iqamahCountdownActive = false;
+          index++;
+          if (index < prayerTimes.length) {
+            updateTimer(); // Update timer for the next prayer
+          } else {
+            document.querySelector(".timer-text").textContent = "Semua waktu shalat telah berlalu";
+          }
+        }
+      } else {
+        remainingTime = calculateRemainingTime(prayerTimes[index].time);
+        if (remainingTime) {
+          document.getElementById("hours").textContent = remainingTime.hours.toString().padStart(2, '0');
+          document.getElementById("minutes").textContent = remainingTime.minutes.toString().padStart(2, '0');
+          document.getElementById("seconds").textContent = remainingTime.seconds.toString().padStart(2, '0');
+          document.querySelector(".timer-text").textContent = `Menuju ${prayerTimes[index].name}`;
+        } else {
+          // Activate iqamah countdown if the current prayer is one of the specified ones
+          const currentPrayer = prayerTimes[index].name;
+          if (["Subuh", "Dzuhur", "Ashar", "Maghrib", "Isya"].includes(currentPrayer)) {
+            iqamahCountdownActive = true;
+            remainingTime = { totalSeconds: 5 * 60 }; // 5 minutes countdown
+            updateTimer(); // Start the iqamah countdown
+          } else {
+            index++;
+            if (index < prayerTimes.length) {
+              updateTimer(); // Update timer for the next prayer
+            } else {
+              document.querySelector(".timer-text").textContent = "Semua waktu shalat telah berlalu";
+            }
+          }
+        }
+      }
+    }
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+}
 function getJadwalShalat() {
   fetch(`https://api.myquran.com/v2/sholat/jadwal/0228/${formattedDate}`)
     .then((response) => response.json())
@@ -70,11 +123,21 @@ function getJadwalShalat() {
 
         console.log(jadwal);
 
-        // Update timers immediately and then every second
-        updateTimers(jadwal);
-        setInterval(() => updateTimers(jadwal), 1000);
+        // Create an array of prayer times
+        const prayerTimes = [
+          { name: "Imsak", time: jadwal.imsak },
+          { name: "Subuh", time: jadwal.subuh },
+          { name: "Terbit", time: jadwal.terbit },
+          { name: "Dhuha", time: jadwal.dhuha },
+          { name: "Dzuhur", time: jadwal.dzuhur },
+          { name: "Ashar", time: jadwal.ashar },
+          { name: "Maghrib", time: jadwal.maghrib },
+          { name: "Isya", time: jadwal.isya },
+        ];
+
+        startCountdown(prayerTimes);
       } else {
-        console.error("Error: Failed to retrieve prayer schedule.");
+        console.error('Error: Failed to retrieve prayer schedule.');
       }
     })
     .catch((error) => console.error("Error fetching the prayer schedule:", error));
